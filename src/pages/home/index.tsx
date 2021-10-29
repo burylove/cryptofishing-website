@@ -256,7 +256,7 @@ export default function Home() {
                             <div className="relative shadow-xl  sm:overflow-hidden" >
                                 <div className="absolute inset-0">
                                     <img
-                                        className="h-full w-full  object-cover"
+                                        className="h-full w-full w-auto h-auto object-cover"
                                         src="https://cdn.discordapp.com/attachments/897398778166906911/900033418979594280/1.jpg"
                                         alt="People working on laptops"
                                     />
@@ -297,14 +297,13 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="relative"  >
-
                         <div  className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100"  />
                         {lists.map((list)=>(
                         <div key={list.title} className="">
                             <div className="relative shadow-xl  sm:overflow-hidden " >
                                 <div className="absolute inset-0">
                                     <img
-                                        className="h-full w-full object-cover"
+                                        className="h-full w-full w-auto h-auto object-cover"
                                         src={list.img}
                                         alt="People working on laptops"
                                     />
