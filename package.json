@@ -19,6 +19,7 @@
     "@polkadot/api": "^6.8.1",
     "@polkadot/extension-dapp": "^0.41.1",
     "@reduxjs/toolkit": "^1.6.0",
+    "axios": "^0.24.0",
     "near-api-js": "^0.43.1",
     "next": "latest",
     "react": "^17.0.2",
