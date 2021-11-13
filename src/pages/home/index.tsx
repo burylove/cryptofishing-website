@@ -102,6 +102,15 @@ export default function Home() {
         tupian.current.style.display='block'
         opacity.current.style.opacity="0.25"
         opacity.current.style.zIndex= "40"
+        if (state1===false){
+            hidden1.current.style.display="none"
+        };
+        if (state2===false){
+            hidden2.current.style.display="none"
+        };
+        if (state3===false){
+            hidden3.current.style.display="none"
+        };
 
     }
     const shut=()=>{
@@ -122,8 +131,9 @@ export default function Home() {
     //多选框
     const [state1,setState1]=React.useState(false)
     let hidden1=React.useRef()
-    let chuxian1=React.useRef()
+
     const open1=()=> {
+
         if (state1===false){
         setState1(true)
             hidden1.current.style.display="inline-flex"
@@ -132,9 +142,7 @@ export default function Home() {
             hidden1.current.style.display="none"
         }
         };
-    if (state1===false){
-        hidden1.current.style.display="none"
-    };
+
     const [state2,setState2]=React.useState(false)
     let hidden2=React.useRef()
     let chuxian2=React.useRef()
@@ -147,8 +155,7 @@ export default function Home() {
             hidden2.current.style.display="none"
         }
     };
-    if (state2===false){
-        hidden2.current.style.display="none"};
+
     const [state3,setState3]=React.useState(false)
     let hidden3=React.useRef()
     let chuxian3=React.useRef()
@@ -161,9 +168,7 @@ export default function Home() {
             hidden3.current.style.display="none"
         }
     };
-    if (state3===false) {
-        hidden3.current.style.display = "none"
-    };
+
 
      return (
 
