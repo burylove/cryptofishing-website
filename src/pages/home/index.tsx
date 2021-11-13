@@ -113,6 +113,9 @@ export default function Home() {
         };
 
     }
+
+
+    
     const shut=()=>{
         tupian.current.style.display='none'
         opacity.current.style.opacity="0"
