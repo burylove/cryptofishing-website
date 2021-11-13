@@ -1,15 +1,12 @@
-import React, { Fragment ,} from 'react'
+import React, { Fragment, useState } from 'react';
 import { Popover, Transition } from '@headlessui/react'
 import {
-    AnnotationIcon,
-    ChatAlt2Icon,
-    InboxIcon,
     MenuIcon,
-    QuestionMarkCircleIcon,
     XIcon,
 } from '@heroicons/react/outline'
-import { ChevronDownIcon } from '@heroicons/react/solid'
-import {any} from "prop-types";
+import { InformationCircleIcon } from '@heroicons/react/solid'
+import * as nearAPI from "near-api-js";
+const { connect, keyStores, WalletConnection } = nearAPI;
 
 const lists = [
     {
@@ -28,28 +25,6 @@ const lists = [
         button:'Opensea',
         buttonurl:'#',
     },
-]
-const topwallet=[
-
-    { id:"1",
-    value:'david0x78C6b1c6ea8cf3A358f0D445aC1cf281aa',
-    },
-
-    { id:"2",
-        value:'herry0x78C6b1c6ea8cf3A358f0D445aC1cf281aaF',
-    },
-
-]
-const wallet=[
-
-    { id:"1",
-        value:'0x78C6b1c6ea8cf3A358f0D445aC1cf281aaF33758',
-    },
-
-    { id:"2",
-        value:'0x78C6b1c6ea8cf3A358f0D445aC1cf281aaF33758',
-    },
-
 ]
 const toend=[
     {
@@ -95,33 +70,91 @@ function classNames(...classes) {
 
 
 export default function Home() {
-
     //打开CONNECT
-
+    const [PolkWallet,SetPolkWallet] = useState([{ id:"",
+        value:'',
+    },])
+    const [EvmWallet,EvmWalletSet] = useState([{ id:"",
+        value:'',
+    },])
+    const [NearWallet,NearWalletSet] = useState([{ id:"",
+        value:'',
+    },])
+    const [SolWallet,SolWalletSet] = useState([{ id:"",
+        value:'',
+    },])
     let opacity=React.useRef()
     let opentu=React.useRef()
     const opens=()=>{
-        // @ts-ignore
-        opentu.current.style.display="block"
-            // @ts-ignore
-        opacity.current.style.opacity="0.25"
-        // @ts-ignore
-        opacity.current.style.zIndex= "40"
-        if (state1===false){
-            (hidden1 as any).current.style.display="none"
-        };
-        if (state2===false){
-            (hidden2 as any).current.style.display="none"
-        };
-        if (state3===false){
-            (hidden3 as any).current.style.display="none"
-        };
+        const polkadot = async ()=> {
+            const {
+                web3Accounts,
+                web3Enable,
+            } = await import('@polkadot/extension-dapp');
+            const extensions = await web3Enable('wangguanqi');
+            if (extensions.length === 0) {
+                return (
+                  <div className="rounded-md bg-blue-50 p-4">
+                      <div className="flex">
+                          <div className="flex-shrink-0">
+                              <InformationCircleIcon className="h-5 w-5 text-blue-400" aria-hidden="true" />
+                          </div>
+                          <div className="ml-3 flex-1 md:flex md:justify-between">
+                              <p className="text-sm text-blue-700">A new software update is available. See what’s new in version 2.0.4.</p>
+                              <p className="mt-3 text-sm md:mt-0 md:ml-6">
+                                  <a href="#" className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
+                                      Details <span aria-hidden="true">&rarr;</span>
+                                  </a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                );
+            } else {
+                const allAccounts = await web3Accounts();
+                const extensions = await web3Enable('wangguanqi');
+                if (allAccounts.length > 1) {
+                    let info = []
+                    for (let i = 0;i<allAccounts.length;i++){
+                        info.push(
+                          {
+                              id:i.toString(),
+                              value:allAccounts[i].address
+                          }
+                        )
+                    }
+                    SetPolkWallet(info)
+                }else {
+                    const info = [{
+                        id:"1",
+                        value:allAccounts[0].address
+                    }]
+                    SetPolkWallet(info)
+                }
+                // @ts-ignore
+                opentu.current.style.display="block"
+                // @ts-ignore
+                opacity.current.style.opacity="0.25"
+                // @ts-ignore
+                opacity.current.style.zIndex= "40"
+                if (state1===false){
+                    (hidden1 as any).current.style.display="none"
+                };
+                if (state2===false){
+                    (hidden2 as any).current.style.display="none"
+                };
+                if (state3===false){
+                    (hidden3 as any).current.style.display="none"
+                };
+            }
+        }
+        polkadot()
 
 
     }
 
 
-    
+
 
 
     const shut=()=>{
@@ -148,23 +181,64 @@ export default function Home() {
     //多选框
     const [state1,setState1]=React.useState(false)
     let hidden1=React.useRef()
-    const open1=()=> {
-
-        if (state1===false){
-            // @ts-ignore
-            setState1(true)
-            // @ts-ignore
-        hidden1.current.style.display="inline-flex"
+    const open1= async ()=> {
+        // @ts-ignore
+        if (typeof window.ethereum == 'undefined') {
+            console.log('MetaMask is uninstalled!');
         }else {
-            setState1(false)
             // @ts-ignore
-            hidden1.current.style.display="none"
-        }
+            const { ethereum } = window;
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+            const info = [
+                { id:"1",
+                    value:account,
+                },
+            ]
+            EvmWalletSet(info)
+            if (state1===false){
+                // @ts-ignore
+                setState1(true)
+                // @ts-ignore
+                hidden1.current.style.display="inline-flex"
+            }else {
+                setState1(false)
+                // @ts-ignore
+                hidden1.current.style.display="none"
+            }
         };
-
+    }
     const [state2,setState2]=React.useState(false)
     let hidden2=React.useRef()
-    const open2=()=> {
+    const open2=async ()=> {
+        const keyStore = new keyStores.BrowserLocalStorageKeyStore();
+        const config = {
+            networkId: "testnet",
+            keyStore, // optional if not signing transactions
+            nodeUrl: "https://rpc.testnet.near.org",
+            walletUrl: "https://wallet.testnet.near.org",
+            helperUrl: "https://helper.testnet.near.org",
+            explorerUrl: "https://explorer.testnet.near.org",
+        };
+        const near = await connect(config);
+        const wallet = new WalletConnection(near,"test1");
+        if(wallet.isSignedIn()) {
+            const walletAccountId = wallet.getAccountId();
+            const info = [
+                { id:"1",
+                    value:walletAccountId,
+                },
+            ]
+            NearWalletSet(info)
+        }else {
+                wallet.requestSignIn(
+                  "example-contract.testnet", // contract requesting access
+                  "test1", // optional
+                  // "http://YOUR-URL.com/success", // optional
+                  // "http://YOUR-URL.com/failure" // optional
+                );
+        }
+
         if (state2===false){
             setState2(true)
             // @ts-ignore
@@ -255,7 +329,7 @@ export default function Home() {
                                    {/*地址下拉框*/}
                                    <div className="flex   md:justify-center mb-5">
                                        <select className="text-xs lg:text-sm mr-5 h-10 font-medium py-2 border w-32 cursor-pointer">
-                                           {topwallet.map((item)=>(
+                                           {PolkWallet.map((item)=>(
                                                <option key={item.id}
                                                        value={item.value}>
                                                    {item.value}</option>
@@ -281,7 +355,7 @@ export default function Home() {
                                                    <div className="flex my-auto">
                                                        <select className="my-2 text-xs lg:text-sm truncate py-1 border w-40  cursor-pointer  xl:w-56 overflow-hidden " >
 
-                                                           {wallet.map((item)=>(
+                                                           {EvmWallet.map((item)=>(
                                                                <option className="overflow-ellipsis " key={item.id}
                                                                        value={item.value}>
                                                                    {item.value}</option>
@@ -304,7 +378,7 @@ export default function Home() {
                                                <div className="flex my-auto">
                                                    <select className="my-2 text-xs lg:text-sm truncate py-1 border w-40  cursor-pointer  xl:w-56 overflow-hidden " >
 
-                                                       {wallet.map((item)=>(
+                                                       {NearWallet.map((item)=>(
                                                            <option className="overflow-ellipsis " key={item.id}
                                                                    value={item.value}>
                                                                {item.value}</option>
@@ -327,7 +401,7 @@ export default function Home() {
                                                <div className="flex my-auto">
                                                    <select className="my-2 text-xs lg:text-sm truncate py-1 border w-40  cursor-pointer  xl:w-56 overflow-hidden " >
 
-                                                       {wallet.map((item)=>(
+                                                       {EvmWallet.map((item)=>(
                                                            <option className="overflow-ellipsis " key={item.id}
                                                                    value={item.value}>
                                                                {item.value}</option>
