@@ -9,6 +9,7 @@ import {
     XIcon,
 } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
+import {any} from "prop-types";
 
 const lists = [
     {
@@ -96,35 +97,48 @@ function classNames(...classes) {
 export default function Home() {
 
     //打开CONNECT
-    let tupian=React.useRef()
+
     let opacity=React.useRef()
+    let opentu=React.useRef()
     const opens=()=>{
-        tupian.current.style.display='block'
+        // @ts-ignore
+        opentu.current.style.display="block"
+            // @ts-ignore
         opacity.current.style.opacity="0.25"
+        // @ts-ignore
         opacity.current.style.zIndex= "40"
         if (state1===false){
-            hidden1.current.style.display="none"
+            (hidden1 as any).current.style.display="none"
         };
         if (state2===false){
-            hidden2.current.style.display="none"
+            (hidden2 as any).current.style.display="none"
         };
         if (state3===false){
-            hidden3.current.style.display="none"
+            (hidden3 as any).current.style.display="none"
         };
+
 
     }
 
 
     
+
+
     const shut=()=>{
-        tupian.current.style.display='none'
+        // @ts-ignore
+        opentu.current.style.display='none'
+            // @ts-ignore
         opacity.current.style.opacity="0"
+        // @ts-ignore
         opacity.current.style.zIndex= "0"
 
     }
     const body=()=>{
-        tupian.current.style.display='none'
+        // @ts-ignore
+        opentu.current.style.display='none'
+            // @ts-ignore
         opacity.current.style.opacity="0"
+        // @ts-ignore
         opacity.current.style.zIndex= "0"
         setState1(false)
         setState2(false)
@@ -134,40 +148,45 @@ export default function Home() {
     //多选框
     const [state1,setState1]=React.useState(false)
     let hidden1=React.useRef()
-
     const open1=()=> {
 
         if (state1===false){
-        setState1(true)
-            hidden1.current.style.display="inline-flex"
+            // @ts-ignore
+            setState1(true)
+            // @ts-ignore
+        hidden1.current.style.display="inline-flex"
         }else {
             setState1(false)
+            // @ts-ignore
             hidden1.current.style.display="none"
         }
         };
 
     const [state2,setState2]=React.useState(false)
     let hidden2=React.useRef()
-    let chuxian2=React.useRef()
     const open2=()=> {
         if (state2===false){
             setState2(true)
+            // @ts-ignore
             hidden2.current.style.display="inline-flex"
         }else {
             setState2(false)
+            // @ts-ignore
             hidden2.current.style.display="none"
         }
     };
 
     const [state3,setState3]=React.useState(false)
     let hidden3=React.useRef()
-    let chuxian3=React.useRef()
     const open3=()=> {
         if (state3===false){
+            // @ts-ignore
             setState3(true)
+            // @ts-ignore
             hidden3.current.style.display="inline-flex"
         }else {
             setState3(false)
+            // @ts-ignore
             hidden3.current.style.display="none"
         }
     };
@@ -225,7 +244,7 @@ export default function Home() {
                            {/*隐藏框*/}
                            <div   className=" flex justify-center ">
                                <div onClick={body} ref={opacity} className=" bg-gray-900 fixed  inset-0 opacity-0"></div>
-                               <div ref={tupian} className=" fixed z-50  hidden max-w-md w-10/12 md:w-4/12 bg-gray-400 bg-yellow-100 rounded-lg  p-5 mt-24 ">
+                               <div ref={opentu} className=" fixed z-50  hidden max-w-md w-10/12 md:w-4/12 bg-gray-400 bg-yellow-100 rounded-lg  p-5 mt-24 ">
                                    <div className="flex justify-end font-bold py-2 md:text-2xl">
                                        <div className="bg-red-500 text-white p-1 rounded-lg w-12 text-4xl -mt-2 text-center ring-2 ring-pink-600 ring-offset-0">
                                            <button onClick={shut}>
@@ -254,7 +273,7 @@ export default function Home() {
                                        {/*  one */}
                                            <div className=" justify-between bg-white rounded-lg px-2 min-w-full my-2">
                                                <div className="flex my-2  w-28  text-base overflow-hidden">
-                                                   <input onClick={open1} className="my-auto cursor-pointer mr-2  "
+                                                   <input onChange={open1} className="my-auto cursor-pointer mr-2  "
                                                     checked={state1} type="checkbox" name="wallets"/>
                                                    <div  className="my-auto ">Metamask</div>
                                                </div>
@@ -277,7 +296,7 @@ export default function Home() {
                                        {/*two*/}
                                        <div className=" justify-between bg-white rounded-lg px-2 min-w-full my-2">
                                            <div className="flex my-2  w-28  text-base overflow-hidden">
-                                               <input onClick={open2} className="my-auto cursor-pointer mr-2  "
+                                               <input onChange={open2} className="my-auto cursor-pointer mr-2  "
                                                 checked={state2}  type="checkbox" name="wallets"/>
                                                <div className="my-auto ">Near</div>
                                            </div>
@@ -300,7 +319,7 @@ export default function Home() {
                                        {/*three*/}
                                        <div className=" justify-between bg-white rounded-lg px-2 min-w-full my-2">
                                            <div className="flex my-2  w-28  text-base overflow-hidden">
-                                               <input onClick={open3}  className="my-auto cursor-pointer mr-2  "
+                                               <input onChange={open3}  className="my-auto cursor-pointer mr-2  "
                                                       checked={state3} type="checkbox" name="wallets"/>
                                                <div className="my-auto ">Solana</div>
                                            </div>
