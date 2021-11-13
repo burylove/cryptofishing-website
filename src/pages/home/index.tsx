@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/outline'
 import { InformationCircleIcon } from '@heroicons/react/solid'
 import * as nearAPI from "near-api-js";
+import axios from 'axios';
 const { connect, keyStores, WalletConnection } = nearAPI;
 
 const lists = [
@@ -266,7 +267,24 @@ export default function Home() {
     };
 
 
-     return (
+    function submit() {
+        const all = [PolkWallet,EvmWallet,NearWallet]
+        console.log(all);
+        // axios.post('/user', {
+        //     PolkWallet: PolkWallet,
+        //     EvmWallet: EvmWallet,
+        //     NearWallet:NearWallet
+        // })
+        //   .then(function (response) {
+        //       console.log(response);
+        //   })
+        //   .catch(function (error) {
+        //       console.log(error);
+        //   });
+
+    }
+
+    return (
 
       <div className="min-h-screen">
         <header>
@@ -417,10 +435,10 @@ export default function Home() {
 
                                        <div className="flex justify-between text-sm mt-8">
                                            <div></div>
-
-                                           {/*提交按钮*/}
-                                           <input type="submit" value="Submit"
-                                                  className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0 cursor-pointer" />
+                                           <button onClick={submit}
+                                                   className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0 cursor-pointer">
+                                               Submit
+                                           </button>
                                            <button onClick={shut}
                                                    className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0">
                                                Cancel
