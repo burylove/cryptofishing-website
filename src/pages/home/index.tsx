@@ -270,17 +270,26 @@ export default function Home() {
     function submit() {
         const all = [PolkWallet,EvmWallet,NearWallet]
         console.log(all);
-        // axios.post('/user', {
-        //     PolkWallet: PolkWallet,
-        //     EvmWallet: EvmWallet,
-        //     NearWallet:NearWallet
-        // })
-        //   .then(function (response) {
-        //       console.log(response);
-        //   })
-        //   .catch(function (error) {
-        //       console.log(error);
-        //   });
+        let data = {
+            PolkWallet,
+            EvmWallet,
+            NearWallet
+        }
+        console.log(...all);
+        axios({
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            url: '/registered',
+            data: JSON.stringify(data)
+        }) .then(function (response) {
+            console.log(response);
+        })
+          .catch(function (error) {
+              console.log(error);
+          });
+
 
     }
 
