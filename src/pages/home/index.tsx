@@ -8,6 +8,8 @@ import {
 
 import * as nearAPI from "near-api-js";
 import axios from 'axios';
+import {number} from "prop-types";
+import {PROPERTY_TYPES} from "@babel/types";
 const { connect, keyStores, WalletConnection } = nearAPI;
 
 const lists = [
@@ -73,34 +75,102 @@ function classNames(...classes) {
 
 export default function Home() {
     //打开CONNECT
-    const [PolkWallet,SetPolkWallet] = useState([{ id:"",
-        value:'',
+    const [PolkWallet, SetPolkWallet] = useState([{
+        id: "",
+        value: '',
     },])
-    const [EvmWallet,EvmWalletSet] = useState([{ id:"",
-        value:'',
+    const [EvmWallet, EvmWalletSet] = useState([{
+        id: "",
+        value: '',
     },])
-    const [NearWallet,NearWalletSet] = useState([{ id:"",
-        value:'',
+    const [NearWallet, NearWalletSet] = useState([{
+        id: "",
+        value: '',
     },])
-    const [SolWallet,SolWalletSet] = useState([{ id:"",
-        value:'',
+    const [SolWallet, SolWalletSet] = useState([{
+        id: "",
+        value: '',
     },])
-    let opacity=useRef()
-    let opentu=useRef()
-    let popup=useRef()
-    let alerttag=useRef()
+    let opacity = useRef(null)
+    let wallet = useRef(null)
+    let popup = useRef(null)
+    let alerttag = useRef(null)
+    let maths=useRef(null)
+    //必须为正整数
+    const onkeyup=()=> {
+        if(!/^(0+)|[^\d]+/g.test(maths.current.value)){
+            }else {
+            alert('Please enter an integer') ;maths.current.value='';
+        }
+
+
+
+
+    }
+
 
     const [open, setOpen] = useState(true)
 
     const cancelButtonRef = useRef(null)
+    let impower = useRef(null)
+    const openimpower = () => {
+        const polkadot = async () => {
+            const {
+                web3Accounts,
+                web3Enable,
+            } = await import('@polkadot/extension-dapp');
+            const extensions = await web3Enable('wangguanqi');
+            //判断有没有安装钱包
+            if (extensions.length === 0) {
+                // @ts-ignore
+                popup.current.style.display = "inline-flex"
+                // @ts-ignore
+                alerttag.current.style.opacity = "0.25"
+                // @ts-ignore
+                alerttag.current.style.zIndex = "40"
 
-    const opens=()=>{
+            } else {
+                const allAccounts = await web3Accounts();
+                const extensions = await web3Enable('wangguanqi');
+                if (allAccounts.length > 1) {
+                    let info = []
+                    for (let i = 0; i < allAccounts.length; i++) {
+                        info.push(
+                            {
+                                id: i.toString(),
+                                value: allAccounts[i].address
+                            }
+                        )
+                    }
+                    SetPolkWallet(info)
+                } else {
+                    const info = [{
+                        id: "1",
+                        value: allAccounts[0].address
+                    }]
+                    SetPolkWallet(info)
+                }
+
+                impower.current.style.display = "block"
+                // @ts-ignore
+                opacity.current.style.opacity = "0.25"
+                // @ts-ignore
+                opacity.current.style.zIndex = "40"
+
+            }
+        }
+        polkadot()
+    }
+
+
+    const openwallet=()=>{
         const polkadot = async ()=> {
             const {
                 web3Accounts,
                 web3Enable,
             } = await import('@polkadot/extension-dapp');
             const extensions = await web3Enable('wangguanqi');
+            //判断有没有安装钱包
             if (extensions.length=== 0) {
                 // @ts-ignore
                 popup.current.style.display="inline-flex"
@@ -131,7 +201,7 @@ export default function Home() {
                     SetPolkWallet(info)
                 }
                 // @ts-ignore
-                opentu.current.style.display="block"
+                wallet.current.style.display="block"
                 // @ts-ignore
                 opacity.current.style.opacity="0.25"
                 // @ts-ignore
@@ -155,8 +225,9 @@ export default function Home() {
     }
 
     const shut=()=>{
+        impower.current.style.display="none"
         // @ts-ignore
-        opentu.current.style.display='none'
+        wallet.current.style.display='none'
             // @ts-ignore
         opacity.current.style.opacity="0"
         // @ts-ignore
@@ -165,8 +236,6 @@ export default function Home() {
         setState2(false)
 
     }
-
-
 
     //警告框
     const ocalert=()=>{
@@ -324,9 +393,16 @@ export default function Home() {
 
 
                                <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                                   <button onClick={opens} className="ml-8 whitespace-nowrap hidden xl:inline-flex inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-yellow-200 hover:bg-yellow-50 hover:text-black"
+
+                                   <button onClick={openwallet} className="ml-8 whitespace-nowrap hidden xl:inline-flex inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-yellow-200 hover:bg-yellow-50 hover:text-black"
                                    >
                                        CONNECT
+
+                                   </button>
+
+                                   <button onClick={openimpower} className="ml-8 whitespace-nowrap hidden xl:inline-flex inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-400 hover:bg-yellow-50 hover:text-black"
+                                   >
+                                       IMPOWER
 
                                    </button>
                                    <a
@@ -370,10 +446,10 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                           {/*隐藏框*/}
+                           {/*钱包隐藏框*/}
                            <div   className=" flex justify-center overflow-hidden ">
                                <div onClick={shut} ref={opacity} className=" bg-gray-900 fixed  inset-0 opacity-0"></div>
-                               <div ref={opentu} className=" fixed z-50  hidden max-w-md w-10/12 md:w-4/12 bg-gray-400 bg-yellow-100 rounded-lg  p-5 mt-24 ">
+                               <div ref={wallet} className=" fixed z-50  hidden max-w-md w-10/12 md:w-4/12 bg-gray-400 bg-yellow-100 rounded-lg  p-5 mt-24 ">
                                    <div className="flex justify-end font-bold py-2 md:text-2xl">
                                        <div className="bg-red-500 text-white p-1 rounded-lg w-12 text-4xl -mt-2 text-center ring-2 ring-pink-600 ring-offset-0">
                                            <button onClick={shut}>
@@ -383,7 +459,7 @@ export default function Home() {
                                    </div>
                                    {/*地址下拉框*/}
                                    <div className="flex  md:justify-center mb-5  overflow-hidden ">
-                                       <select className="text-xs lg:text-sm mr-5 h-10 font-medium py-2 border w-32 cursor-pointer ">
+                                       <select className="text-xs lg:text-sm mr-5 h-10 font-medium py-2 border  w-56 cursor-pointer ">
                                            {PolkWallet.map((item)=>(
                                                <option  key={item.id}
                                                        value={item.value} className="text-xs  lg:text-base  ">
@@ -461,10 +537,10 @@ export default function Home() {
                                                    className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0 cursor-pointer">
                                                Submit
                                            </button>
-                                           <button onClick={shut}
-                                                   className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0">
+                                           <div  onClick={shut}
+                                                   className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0 cursor-pointer">
                                                Cancel
-                                           </button>
+                                           </div>
 
                                            <div></div>
                                        </div>
@@ -472,6 +548,59 @@ export default function Home() {
 
                                </div>
                            </div>
+                {/*授权隐藏框*/}
+                <div   className=" flex justify-center overflow-hidden ">
+                    <div onClick={shut} ref={opacity} className=" bg-gray-900 fixed  inset-0 opacity-0"></div>
+                    <div ref={impower} className=" fixed z-50  hidden max-w-md w-10/12 md:w-4/12 bg-gray-400 bg-yellow-100 rounded-lg  p-5 mt-24 ">
+                        <div className="flex justify-end font-bold py-2 md:text-2xl">
+                            <div className="bg-red-500 text-white p-1 rounded-lg w-12 text-4xl -mt-2 text-center ring-2 ring-pink-600 ring-offset-0">
+                                <button onClick={shut}>
+                                    <i className="fa fa-times-circle-o" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {/*地址下拉框*/}
+                        <div className="flex  md:justify-center mb-5  overflow-hidden ">
+                            <select className="text-xs lg:text-sm mr-5 h-10 font-medium py-2 border  w-56 cursor-pointer ">
+                                {PolkWallet.map((item)=>(
+                                    <option  key={item.id}
+                                             value={item.value} className="text-xs  lg:text-base  ">
+                                        {item.value}</option>
+                                ))}
+                            </select>
+                            {/*头部*/}
+                            <div className=" w-10">
+                                <img  src="https://cdn.discordapp.com/attachments/876498266550853642/908665467273613392/unknown.png" alt=""/>
+                            </div>
+                        </div>
+                        {/*表单*/}
+                        <form  className="text-sm  j" action="">
+
+                            <div className="flex justify-center p-5">
+                                <span className="text-xl text-center">
+                                Enter the Fish quota you want to grant to the game</span>
+                            </div>
+                            <div className="flex justify-center p-5">
+                            <input ref={maths} type="text" required={true}  onKeyUp={onkeyup} className="p-2 border" />
+                            </div>
+                            {/*提交按钮*/}
+                            <div className="flex justify-between text-sm mt-8">
+                                <div></div>
+                                <button
+                                        className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0 cursor-pointer">
+                                    Approve
+                                </button>
+                                <div  onClick={shut}
+                                      className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0 cursor-pointer">
+                                    Close
+                                </div>
+
+                                <div></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
                            <Transition
                                as={Fragment}
                                enter="duration-200 ease-out"
