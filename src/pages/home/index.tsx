@@ -396,7 +396,7 @@ export default function Home() {
 
                                <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
 
-                                   <button onClick={openwallet} className="ml-8 whitespace-nowrap hidden xl:inline-flex inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-yellow-200 hover:bg-yellow-50 hover:text-black"
+                                   <button onClick={openwallet} className="ml-8 whitespace-nowrap hidden md:inline-flex inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-yellow-200 hover:bg-yellow-50 hover:text-black"
                                    >
                                        CONNECT
 
@@ -408,7 +408,7 @@ export default function Home() {
 
                                    </button>
                                    <a
-                                       href="https://unity3d-test.vercel.app/"
+                                       href="https://unity3d-beta.vercel.app/"
                                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                                    >
                                        PLAY
