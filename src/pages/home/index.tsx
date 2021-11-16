@@ -42,20 +42,22 @@ const toend=[
     },
     {
         title:"RESOURCES",
-        h1:"Opensea",
-        h1url:"#",
-        h2:"Medium",
-        h2url:"#",
-        h3:"Playerlink",
-        h3url:"#"
+        h1:"Playerlink",
+        h1url:"https://www.playerlink.io/",
+        h2:"Moonbeam",
+        h2url:"https://moonbeam.network/",
+        h3:"Sushi",
+        h3url:" https://app.sushi.com/swap"
     },{
         title:"COMMUNITY",
         h1:"Discord",
-        h1url:"#",
+        h1url:"https://discord.gg/gJuDTcdUjj",
         h2:"Twitter",
         h2url:"#",
         h3:"Instagram",
-        h3url:"#"
+        h3url:"#",
+        h4:'Medium',
+        h4url:""
     },
 ]
 
@@ -588,7 +590,7 @@ export default function Home() {
                                 <div></div>
                                 <button
                                         className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0 cursor-pointer">
-                                    Approve
+                                    transfer
                                 </button>
                                 <div  onClick={shut}
                                       className="text-lg p-1 rounded-lg bg-green-200 ring-2 ring-white ring-offset-0 cursor-pointer">
@@ -755,7 +757,7 @@ export default function Home() {
                            </div>
 
                            {/* Logo cloud */}
-                           <div className="bg-gray-100 " >
+                           <div className="relative bg-gray-100  " >
                                <div className="pt-36 pb-36  sm:px-6 lg:px-8 bg-black">
                                    <div className="md:flex md:justify-around">
                                        {toend.map((ends)=>(
@@ -771,6 +773,8 @@ export default function Home() {
                                                            <a href={ends.h2url}>{ends.h2}</a></p>
                                                        <p className="flex mb-2 justify-center text-gray-400 hover:text-gray-50 delay-75">
                                                            <a href={ends.h3url}>{ends.h3}</a></p>
+                                                       <p className="flex mb-2 justify-center text-gray-400 hover:text-gray-50 delay-75">
+                                                           <a href={ends.h4url}>{ends.h4}</a></p>
                                                    </h2>
                                                </div>
                                            </div>))}
