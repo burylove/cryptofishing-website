@@ -366,7 +366,7 @@ export default function Home() {
       <div className="min-h-screen">
         <header>
             <Popover  className="relative">
-             <div className="flex  fixed z-20 inset-x-0 bg-black bg-opacity-0 md:bg-opacity-75 justify-between items-center p-5 sm:px-6 md:justify-start md:space-x-10 lg:px-8">
+             <div className="flex  fixed z-20 inset-x-0 bg-black  md:bg-opacity-75 justify-between items-center p-5 sm:px-6 md:justify-start md:space-x-10 lg:px-8">
                  <div className="flex justify-start lg:w-0 lg:flex-1">
                    <a href="home">
                       <span className="sr-only">Workflow</span>
